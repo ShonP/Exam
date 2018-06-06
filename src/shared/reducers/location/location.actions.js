@@ -1,4 +1,26 @@
-export const SET_LOCATIONS = 'SET_LOCATIONS';
-export const ADD_LOCATION = 'ADD_LOCATION';
-export const REMOVE_LOCATION = 'REMOVE_LOCATION';
-export const UPDATE_LOCATION = 'UPDATE_LOCATION';
+import * as actionTypes from './actionTypes';
+
+export const fetch = () => {
+  return {
+    type: actionTypes.FETCH_LOCATIONS
+  };
+};
+export const add = item => {
+  return {
+    type: actionTypes.ADD_LOCATION,
+    payload: item
+  };
+};
+export const remove = item => {
+  return {
+    type: actionTypes.REMOVE_LOCATION,
+    payload: item
+  };
+};
+
+export const update = item => {
+  return {
+    type: actionTypes.UPDATE_LOCATION,
+    payload: item
+  };
+};

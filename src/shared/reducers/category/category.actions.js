@@ -1,4 +1,26 @@
-export const SET_CATEGORIES = 'SET_CATEGORIES';
-export const ADD_CATEGORY = 'ADD_CATEGORY';
-export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
-export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
+import * as actionTypes from './actionTypes';
+
+export const fetch = () => {
+  return {
+    type: actionTypes.FETCH_CATEGORIES
+  };
+};
+export const add = item => {
+  return {
+    type: actionTypes.ADD_CATEGORY,
+    payload: item
+  };
+};
+export const remove = item => {
+  return {
+    type: actionTypes.REMOVE_CATEGORY,
+    payload: item
+  };
+};
+
+export const update = item => {
+  return {
+    type: actionTypes.UPDATE_CATEGORY,
+    payload: item
+  };
+};

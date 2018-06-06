@@ -1,4 +1,4 @@
-import * as categoryActions from './category.actions';
+import * as actionTypes from './actionTypes';
 const initialState = {
   Categories: []
 };
@@ -9,10 +9,13 @@ const setLocal = categories => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case categoryActions.SET_CATEGORIES:
-      return { ...state, Categories: action.payload };
+    case actionTypes.FETCH_CATEGORIES: {
+      const Categories = localStorage.getItem('categories');
+      if (!Categories) return state;
+      return { ...state, Categories };
+    }
 
-    case categoryActions.REMOVE_CATEGORY: {
+    case actionTypes.REMOVE_CATEGORY: {
       const newerCategories = [...state, state.Categories];
       const toRemoveCategory = newerCategories.find(
         x => x._id === action.payload.id
@@ -22,13 +25,13 @@ const reducer = (state = initialState, action) => {
       return { ...state, Categories: newerCategories };
     }
 
-    case categoryActions.ADD_CATEGORY: {
+    case actionTypes.ADD_CATEGORY: {
       const newerCategories = [...state.Categories, action.payload];
       setLocal(newerCategories);
       return { ...state, newerCategories };
     }
 
-    case categoryActions.UPDATE_CATEGORY: {
+    case actionTypes.UPDATE_CATEGORY: {
       const newerCategories = [...state, state.Categories];
       const toRemoveCategory = newerCategories.find(
         x => x._id === action.payload.id

@@ -1,4 +1,4 @@
-import * as locationActions from './location.actions';
+import * as actionTypes from './actionTypes';
 const initialState = {
   Locations: []
 };
@@ -8,10 +8,13 @@ const setLocal = categories => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case locationActions.SET_LOCATIONS:
-      return { ...state, Locations: action.payload };
+    case actionTypes.FETCH_LOCATIONS: {
+      const Locations = localStorage.getItem('locations');
+      if (!Locations) return state;
+      return { ...state, Locations };
+    }
 
-    case locationActions.REMOVE_LOCATION: {
+    case actionTypes.REMOVE_LOCATION: {
       const newerLocations = [...state, state.Locations];
       const toRemoveLocations = newerLocations.find(
         x => x._id === action.payload.id
@@ -21,13 +24,13 @@ const reducer = (state = initialState, action) => {
       return { ...state, Locations: newerLocations };
     }
 
-    case locationActions.ADD_LOCATION: {
+    case actionTypes.ADD_LOCATION: {
       const newerLocations = [...state.Locations, action.payload];
       setLocal(newerLocations);
       return { ...state, Locations: [...state.Locations, action.payload] };
     }
 
-    case locationActions.UPDATE_LOCATION: {
+    case actionTypes.UPDATE_LOCATION: {
       const newerLocations = [...state, state.Locations];
       const toRemoveLocations = newerLocations.find(
         x => x._id === action.payload.id
