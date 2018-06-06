@@ -2,6 +2,11 @@ import * as categoryActions from './category.actions';
 const initialState = {
   Categories: []
 };
+
+const setLocal = categories => {
+  localStorage.setItem('categories', categories);
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case categoryActions.SET_CATEGORIES:
@@ -13,11 +18,15 @@ const reducer = (state = initialState, action) => {
         x => x._id === action.payload.id
       );
       newerCategories.splice(toRemoveCategory, 1);
+      setLocal(newerCategories);
       return { ...state, Categories: newerCategories };
     }
 
-    case categoryActions.ADD_CATEGORY:
-      return { ...state, Categories: [...state.Categories, action.payload] };
+    case categoryActions.ADD_CATEGORY: {
+      const newerCategories = [...state.Categories, action.payload];
+      setLocal(newerCategories);
+      return { ...state, newerCategories };
+    }
 
     case categoryActions.UPDATE_CATEGORY: {
       const newerCategories = [...state, state.Categories];
@@ -25,6 +34,7 @@ const reducer = (state = initialState, action) => {
         x => x._id === action.payload.id
       );
       newerCategories.splice(toRemoveCategory, 1, action.payload);
+      setLocal(newerCategories);
       return { ...state, Categories: newerCategories };
     }
 

@@ -5,7 +5,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MapIcon from '@material-ui/icons/Map';
 import ContactIcon from '@material-ui/icons/ContentCopy';
-import './BottomNav.css';
 class bottomNav extends React.Component {
   state = {
     value: 0
@@ -35,15 +34,19 @@ class bottomNav extends React.Component {
         return this.props.history.push('/location');
       case 1:
         return this.props.history.push('/category');
+      default:
+        return;
     }
   };
   render() {
     return (
       <Paper style={{ width: '100%' }}>
         <Tabs
+          style={{ backgroundColor: '#ccc' }}
           value={this.state.value}
           onChange={this.handleChange}
           fullWidth
+          centered
           indicatorColor="primary"
           textColor="primary"
         >
