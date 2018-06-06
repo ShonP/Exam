@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+
 import * as categoryActions from './shared/reducers/category/category.actions';
 import * as locationActions from './shared/reducers/location/location.actions';
 import { Route, Switch, Redirect } from 'react-router-dom';
@@ -31,7 +33,9 @@ const mapDispatchToProps = dispatch => {
     fetchLocations: () => dispatch(locationActions.fetch())
   };
 };
-export default connect(
-  null,
-  mapDispatchToProps
-)(App);
+export default withRouter(
+  connect(
+    this.props,
+    mapDispatchToProps
+  )(App)
+);
