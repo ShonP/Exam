@@ -34,9 +34,9 @@ const reducer = (state = initialState, action) => {
     }
 
     case actionTypes.UPDATE_CATEGORY: {
-      const newerCategories = [...state, state.Categories];
-      const toRemoveCategory = newerCategories.find(
-        x => x._id === action.payload.id
+      const newerCategories = [...state.Categories];
+      const toRemoveCategory = newerCategories.findIndex(
+        x => x._id === action.payload._id
       );
       newerCategories.splice(toRemoveCategory, 1, action.payload);
       setLocal(newerCategories);

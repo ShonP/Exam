@@ -36,7 +36,7 @@ class CategoryForm extends React.Component {
             type="text"
           />
         </div>
-        <div className="FormRow">
+        <div className="FormRow" style={{ justifyContent: 'center' }}>
           <Button type="submit" disabled={pristine || invalid}>
             Save
           </Button>

@@ -31,11 +31,7 @@ const CategoryList = props => {
       </ListItem>
     );
   });
-  return (
-    <div>
-      <List component="nav">{items}</List>
-    </div>
-  );
+  return <List component="nav">{items}</List>;
 };
 
 export default CategoryList;

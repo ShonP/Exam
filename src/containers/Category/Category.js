@@ -20,8 +20,8 @@ class Category extends Component {
     this.props.createCategory(newCategory);
     this.setState({ open: false });
   };
-  deleteItem = CategoryIndex => {
-    this.props.removeCategory(CategoryIndex);
+  deleteItem = Category => {
+    this.props.removeCategory(Category);
   };
   updateItem = Category => {
     this.props.updateCategory(Category);
@@ -48,7 +48,7 @@ class Category extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className="categoryContent">
+        <div className="CategoryContent">
           <CategoryList
             data={this.props.category}
             deleteItem={this.deleteItem}
@@ -62,7 +62,9 @@ class Category extends Component {
           }}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Create </DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            {this.state.selectedItem ? 'Update' : 'Create'}
+          </DialogTitle>
           <DialogContent>
             <CategoryForm
               obj={this.state.selectedItem ? this.state.selectedItem : null}

@@ -3,28 +3,27 @@ import { genId } from '../utility';
 const initialState = {
   Locations: []
 };
-const setLocal = categories => {
-  localStorage.setItem('locations', categories);
+const setLocal = locations => {
+  localStorage.setItem('location', JSON.stringify(locations));
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_LOCATIONS: {
-      const Locations = localStorage.getItem('locations');
+      const Locations = JSON.parse(localStorage.getItem('location'));
       if (!Locations) return state;
       return { ...state, Locations };
     }
 
     case actionTypes.REMOVE_LOCATION: {
-      const newerLocations = [state.Locations];
-      const toRemoveLocations = newerLocations.find(
+      const newerLocation = [...state.Locations];
+      const toRemoveLocation = newerLocation.find(
         x => x._id === action.payload._id
       );
-      newerLocations.splice(toRemoveLocations, 1);
-      setLocal(newerLocations);
-      return { ...state, Locations: newerLocations };
+      newerLocation.splice(newerLocation.indexOf(toRemoveLocation), 1);
+      setLocal(newerLocation);
+      return { ...state, Locations: newerLocation };
     }
-
     case actionTypes.ADD_LOCATION: {
       const newLocation = { ...action.payload, _id: genId() };
       const newerLocations = [...state.Locations, newLocation];
@@ -33,8 +32,8 @@ const reducer = (state = initialState, action) => {
     }
 
     case actionTypes.UPDATE_LOCATION: {
-      const newerLocations = [...state, state.Locations];
-      const toRemoveLocations = newerLocations.find(
+      const newerLocations = [...state.Locations];
+      const toRemoveLocations = newerLocations.findIndex(
         x => x._id === action.payload._id
       );
       newerLocations.splice(toRemoveLocations, 1, action.payload);
