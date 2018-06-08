@@ -1,13 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import MapIcon from '@material-ui/icons/Map';
-import ContactIcon from '@material-ui/icons/ContentCopy';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Icon from '@material-ui/core/Icon';
 class bottomNav extends React.Component {
   state = {
-    value: 0
+    value: ''
   };
   componentDidUpdate() {
     this.checkUrl();
@@ -16,44 +14,47 @@ class bottomNav extends React.Component {
     this.checkUrl();
   }
   checkUrl() {
-    switch (this.props.location.pathname) {
-      case '/location': {
-        if (this.state.value !== 0) return this.setState({ value: 0 });
-        return;
+    this.props.approutes.forEach(element => {
+      if (this.props.location.pathname === element.path) {
+        if (this.props.location.pathname !== this.state.value) {
+          this.setState({ value: element.path });
+        }
       }
-      case '/category': {
-        if (this.state.value !== 1) return this.setState({ value: 1 });
-        return;
-      }
-    }
+    });
   }
   handleChange = (event, value) => {
     this.setState({ value });
-    switch (value) {
-      case 0:
-        return this.props.history.push('/location');
-      case 1:
-        return this.props.history.push('/category');
-      default:
-        return;
-    }
+    this.props.approutes.forEach(element => {
+      if (element.path === value) {
+        this.props.history.push(element.path);
+      }
+    });
   };
   render() {
+    const { value } = this.state;
+    const tabs = this.props.approutes.map((x, i) => {
+      return (
+        <BottomNavigationAction
+          key={i}
+          label={x.label}
+          value={x.path}
+          icon={<Icon>{x.icon}</Icon>}
+        />
+      );
+    });
     return (
-      <Paper style={{ width: '100%' }}>
-        <Tabs
-          style={{ backgroundColor: '#ccc' }}
-          value={this.state.value}
-          onChange={this.handleChange}
-          fullWidth
-          centered
-          indicatorColor="primary"
-          textColor="primary"
-        >
-          <Tab icon={<MapIcon />} />
-          <Tab icon={<ContactIcon />} />
-        </Tabs>
-      </Paper>
+      <BottomNavigation
+        value={value}
+        style={{
+          flexBasis:'10%',
+          marginBottom: 16,
+          width: '100%',
+          justifyContent: 'space-around'
+        }}
+        onChange={this.handleChange}
+      >
+        {tabs}
+      </BottomNavigation>
     );
   }
 }

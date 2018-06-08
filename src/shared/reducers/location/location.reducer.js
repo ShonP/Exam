@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { genId } from '../utility';
 const initialState = {
   Locations: []
 };
@@ -15,9 +16,9 @@ const reducer = (state = initialState, action) => {
     }
 
     case actionTypes.REMOVE_LOCATION: {
-      const newerLocations = [...state, state.Locations];
+      const newerLocations = [state.Locations];
       const toRemoveLocations = newerLocations.find(
-        x => x._id === action.payload.id
+        x => x._id === action.payload._id
       );
       newerLocations.splice(toRemoveLocations, 1);
       setLocal(newerLocations);
@@ -25,15 +26,16 @@ const reducer = (state = initialState, action) => {
     }
 
     case actionTypes.ADD_LOCATION: {
-      const newerLocations = [...state.Locations, action.payload];
+      const newLocation = { ...action.payload, _id: genId() };
+      const newerLocations = [...state.Locations, newLocation];
       setLocal(newerLocations);
-      return { ...state, Locations: [...state.Locations, action.payload] };
+      return { ...state, Locations: [...state.Locations, newLocation] };
     }
 
     case actionTypes.UPDATE_LOCATION: {
       const newerLocations = [...state, state.Locations];
       const toRemoveLocations = newerLocations.find(
-        x => x._id === action.payload.id
+        x => x._id === action.payload._id
       );
       newerLocations.splice(toRemoveLocations, 1, action.payload);
       setLocal(newerLocations);

@@ -5,8 +5,7 @@ import { withRouter } from 'react-router';
 import * as categoryActions from './shared/reducers/category/category.actions';
 import * as locationActions from './shared/reducers/location/location.actions';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Category from './containers/Category/Category';
-import Location from './containers/Location/Location';
+import { appRoutes } from './shared/app.routes';
 import BottomNav from './components/BottomNav/BottomNav';
 import './App.css';
 class App extends Component {
@@ -15,14 +14,16 @@ class App extends Component {
     this.props.fetchLocations();
   }
   render() {
+    const routes = appRoutes.map((x, i) => {
+      return <Route path={x.path} key={i} component={x.component} />;
+    });
     return (
       <div className="App">
-        <Switch>
-          <Route path="/category" component={Category} />
-          <Route path="/location" component={Location} />
+        <Switch style={{'flexBasis':'90%'}}>
+          {routes}
           <Redirect from="/" to="category" />
         </Switch>
-        <BottomNav />
+        <BottomNav approutes={appRoutes} />
       </div>
     );
   }
@@ -33,9 +34,4 @@ const mapDispatchToProps = dispatch => {
     fetchLocations: () => dispatch(locationActions.fetch())
   };
 };
-export default withRouter(
-  connect(
-    this.props,
-    mapDispatchToProps
-  )(App)
-);
+export default withRouter(connect(this.props, mapDispatchToProps)(App));
