@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import * as actionCreators from '../../shared/reducers/location/location.actions';
 import { connect } from 'react-redux';
 import LocationList from './LocationList/LocationList';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import './Location.css';
 // import { compose, withProps } from 'recompose';
 // import {
@@ -52,7 +54,8 @@ class Location extends React.Component {
   state = {
     open: false,
     grouped: false,
-    selectedItem: null
+    selectedItem: null,
+    selectedCategory: ''
   };
   createItem = Location => {
     this.props.createLocation({
@@ -62,8 +65,6 @@ class Location extends React.Component {
       Category: Location.Category
     });
     this.setState({ open: false });
-    //   this.props.createCategory(newCategory);
-    //   this.setState({ open: false });
   };
   deleteItem = Location => {
     this.props.removeLocation(Location);
@@ -81,7 +82,17 @@ class Location extends React.Component {
   selectItem = Category => {
     this.setState({ selectedItem: Category, open: true });
   };
+  onSelected = Event => {
+    this.setState({ selectedCategory: Event.target.value });
+  };
   render() {
+    const renderOptions = this.props.category.map(x => {
+      return (
+        <MenuItem key={x._id} value={x._id}>
+          {x.Category}
+        </MenuItem>
+      );
+    });
     return (
       <div className="LocationContainer">
         <AppBar position="static">
@@ -89,6 +100,15 @@ class Location extends React.Component {
             <Typography variant="title" color="inherit" className="flex">
               Location
             </Typography>
+
+            <Select
+              style={{ color: 'white' }}
+              onChange={this.onSelected}
+              value={this.state.selectedCategory}
+            >
+              <MenuItem value="">NoFilter</MenuItem>
+              {renderOptions}
+            </Select>
             <Button
               color="inherit"
               onClick={() => {
@@ -122,6 +142,7 @@ class Location extends React.Component {
             data={this.props.location}
             deleteItem={this.deleteItem}
             selectItem={this.selectItem}
+            filter={this.state.selectedCategory}
           />
         </div>
         <Dialog

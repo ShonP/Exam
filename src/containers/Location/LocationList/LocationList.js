@@ -7,7 +7,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { Delete, Edit } from '@material-ui/icons';
 import ListSubheader from '@material-ui/core/ListSubheader';
 const Location = props => {
-  const { location, deleteItem, selectItem } = props;
+  const { location, deleteItem, selectItem, filter } = props;
+  if (filter !== '' && location.Category != filter) {
+    return null;
+  }
   return (
     <ListItem
       onClick={() => {
@@ -36,10 +39,18 @@ const Location = props => {
 };
 class LocationList extends React.Component {
   render() {
-    const { deleteItem, selectItem, categories, data, grouped } = this.props;
+    const {
+      deleteItem,
+      selectItem,
+      categories,
+      data,
+      grouped,
+      filter
+    } = this.props;
     const Locations = data.map(x => {
       return (
         <Location
+          filter={filter}
           key={x._id}
           deleteItem={deleteItem}
           selectItem={selectItem}
@@ -56,6 +67,7 @@ class LocationList extends React.Component {
           {data.filter(y => y.Category === x._id).map(y => {
             return (
               <Location
+                filter={filter}
                 key={y._id}
                 deleteItem={deleteItem}
                 selectItem={selectItem}
