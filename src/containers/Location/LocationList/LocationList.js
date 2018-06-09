@@ -77,6 +77,7 @@ class LocationList extends React.Component {
                 deleteItem={deleteItem}
                 selectItem={selectItem}
                 location={y}
+                openMap={openMap}
               />
             );
           })}
