@@ -47,8 +47,6 @@ class bottomNav extends React.Component {
         value={value}
         style={{
           flexBasis: '10%',
-          position: 'fixed',
-          bottom:'0',
           width: '100%',
           justifyContent: 'space-around'
         }}

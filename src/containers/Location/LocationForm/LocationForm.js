@@ -16,7 +16,6 @@ class LocationForm extends React.Component {
     }
   }
   handleInitialize() {
-    console.log(this.props.obj);
     const initData = {
       _id: this.props.obj._id,
       Name: this.props.obj.Name,
