@@ -3,7 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import TextInput from '../../../components/Form/TextInput/TextInput';
 import { required } from '../../../components/Form/FieldLevelValidationForm';
-import './CategoryForm.css';
 class CategoryForm extends React.Component {
   componentDidMount() {
     if (this.props.obj) {
@@ -11,11 +10,12 @@ class CategoryForm extends React.Component {
     }
   }
   handleInitialize() {
+    const { obj, initialize } = this.props;
     const initData = {
-      Category: this.props.obj.Category,
-      _id: this.props.obj._id
+      Category: obj.Category,
+      _id: obj._id
     };
-    this.props.initialize(initData);
+    initialize(initData);
   }
   render() {
     const { handleSubmit, pristine, invalid } = this.props;

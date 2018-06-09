@@ -1,45 +1,7 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import { Delete, Edit } from '@material-ui/icons';
 import ListSubheader from '@material-ui/core/ListSubheader';
-const Location = props => {
-  const { location, deleteItem, selectItem, filter, openMap } = props;
-  if (filter !== '' && location.Category !== filter) {
-    return null;
-  }
-  return (
-    <ListItem>
-      <ListItemSecondaryAction>
-        <IconButton
-          onClick={() => {
-            deleteItem(location);
-          }}
-        >
-          <Delete />
-        </IconButton>
-        <IconButton
-          onClick={() => {
-            selectItem(location);
-          }}
-        >
-          <Edit />
-        </IconButton>
-      </ListItemSecondaryAction>
-      <ListItemText
-        onClick={() => {
-          openMap(location);
-          navigator.vibrate(200);
-        }}
-        inset
-        primary={location.Name}
-      />
-    </ListItem>
-  );
-};
+import LocationItem from './LocationItem/LocationItem';
 class LocationList extends React.Component {
   render() {
     const {
@@ -51,18 +13,6 @@ class LocationList extends React.Component {
       grouped,
       filter
     } = this.props;
-    const Locations = data.map(x => {
-      return (
-        <Location
-          filter={filter}
-          key={x._id}
-          deleteItem={deleteItem}
-          selectItem={selectItem}
-          location={x}
-          openMap={openMap}
-        />
-      );
-    });
     const Grouped = categories.map(x => {
       return (
         <List
@@ -71,7 +21,7 @@ class LocationList extends React.Component {
         >
           {data.filter(y => y.Category === x._id).map(y => {
             return (
-              <Location
+              <LocationItem
                 filter={filter}
                 key={y._id}
                 deleteItem={deleteItem}
@@ -84,7 +34,22 @@ class LocationList extends React.Component {
         </List>
       );
     });
-    const unGrouped = <List component="nav">{Locations}</List>;
+    const unGrouped = (
+      <List>
+        {data.map(x => {
+          return (
+            <LocationItem
+              filter={filter}
+              key={x._id}
+              deleteItem={deleteItem}
+              selectItem={selectItem}
+              location={x}
+              openMap={openMap}
+            />
+          );
+        })}
+      </List>
+    );
 
     return grouped ? Grouped : unGrouped;
   }

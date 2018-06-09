@@ -9,7 +9,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import './Category.css';
 import { connect } from 'react-redux';
 class Category extends Component {
   state = {
@@ -32,7 +31,7 @@ class Category extends Component {
   };
   render() {
     return (
-      <div className="CategoryContainer">
+      <div className="Container">
         <AppBar position="static">
           <Toolbar className="appBar">
             <Typography variant="title" color="inherit" className="flex">
@@ -48,7 +47,7 @@ class Category extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className="CategoryContent">
+        <div className="Content">
           <CategoryList
             data={this.props.category}
             deleteItem={this.deleteItem}

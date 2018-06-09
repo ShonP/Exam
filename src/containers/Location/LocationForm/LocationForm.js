@@ -8,7 +8,6 @@ import {
   required,
   number
 } from '../../../components/Form/FieldLevelValidationForm';
-import './LocationForm.css';
 class LocationForm extends React.Component {
   componentDidMount() {
     if (this.props.obj) {
@@ -16,15 +15,16 @@ class LocationForm extends React.Component {
     }
   }
   handleInitialize() {
+    const { obj, initialize } = this.props;
     const initData = {
-      _id: this.props.obj._id,
-      Name: this.props.obj.Name,
-      Address: this.props.obj.Address,
-      Lat: this.props.obj.Coordinates.Lat,
-      Lon: this.props.obj.Coordinates.Lon,
-      Category: this.props.obj.Category
+      _id: obj._id,
+      Name: obj.Name,
+      Address: obj.Address,
+      Lat: obj.Coordinates.Lat,
+      Lon: obj.Coordinates.Lon,
+      Category: obj.Category
     };
-    this.props.initialize(initData);
+    initialize(initData);
   }
   render() {
     const { handleSubmit, pristine, invalid, category } = this.props;
@@ -98,7 +98,7 @@ class LocationForm extends React.Component {
 
 const locationForm = reduxForm({
   // a unique name for the form
-  form: 'category'
+  form: 'location'
 })(LocationForm);
 
 const mapStateToProps = state => {

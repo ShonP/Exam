@@ -13,7 +13,7 @@ import LocationList from './LocationList/LocationList';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import GoogleMap from '../../components/Map/GoogleMap';
-import './Location.css';
+import LocationDisplay from './LocationDisplay/LocationDisplay';
 class Location extends React.Component {
   state = {
     open: false,
@@ -56,6 +56,9 @@ class Location extends React.Component {
   };
   getCategory = CategoryId => {
     return this.props.category.find(x => x._id === CategoryId);
+  };
+  getItemWithCategory = Item => {
+    return { ...Item, Category: this.getCategory(Item.Category) };
   };
   render() {
     const renderOptions = this.props.category.map(x => {
@@ -106,23 +109,14 @@ class Location extends React.Component {
       }
       if (this.state.view === false) {
         return (
-          <div>
-            Name: {this.state.selectedItem.Name}
-            <br />
-            Address: {this.state.selectedItem.Address}
-            <br />
-            Latitude: {this.state.selectedItem.Coordinates.Lat}
-            <br />
-            Longtitude: {this.state.selectedItem.Coordinates.Lon}
-            <br />
-            Category:
-            {this.getCategory(this.state.selectedItem.Category).Category}
-          </div>
+          <LocationDisplay
+            selectedItem={this.getItemWithCategory(this.state.selectedItem)}
+          />
         );
       }
     };
     return (
-      <div className="LocationContainer">
+      <div className="Container">
         <AppBar position="static">
           <Toolbar className="appBar">
             <Typography variant="title" color="inherit" className="flex">
@@ -162,7 +156,7 @@ class Location extends React.Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className="LocationContent">
+        <div className="Content">
           <LocationList
             grouped={this.state.grouped}
             categories={this.props.category}
