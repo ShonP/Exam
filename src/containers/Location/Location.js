@@ -55,7 +55,7 @@ class Location extends React.Component {
     this.setState({ selectedItem: Location, showMap: true });
   };
   getCategory = CategoryId => {
-    return this.props.category.find(x => x._id == CategoryId);
+    return this.props.category.find(x => x._id === CategoryId);
   };
   render() {
     const renderOptions = this.props.category.map(x => {

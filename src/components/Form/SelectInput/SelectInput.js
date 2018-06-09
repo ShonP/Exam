@@ -1,9 +1,6 @@
 import React from 'react';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 /**
 import FormHelperText from '@material-ui/core/FormHelperText';
  * to be wrapped with redux-form Field component

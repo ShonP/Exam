@@ -8,7 +8,7 @@ import { Delete, Edit } from '@material-ui/icons';
 import ListSubheader from '@material-ui/core/ListSubheader';
 const Location = props => {
   const { location, deleteItem, selectItem, filter, openMap } = props;
-  if (filter !== '' && location.Category != filter) {
+  if (filter !== '' && location.Category !== filter) {
     return null;
   }
   return (
