@@ -24,3 +24,6 @@ export const update = item => {
     payload: item
   };
 };
+export const sort = item => {
+  return { type: actionTypes.ALPHABETIC_SORT };
+};

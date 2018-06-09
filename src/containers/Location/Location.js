@@ -100,6 +100,14 @@ class Location extends React.Component {
             <Button
               color="inherit"
               onClick={() => {
+                this.props.sortLocation();
+              }}
+            >
+              Sort
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => {
                 this.setState({ open: true });
               }}
             >
@@ -150,7 +158,8 @@ const mapDispatchToProps = dispatch => {
   return {
     createLocation: item => dispatch(actionCreators.add(item)),
     removeLocation: item => dispatch(actionCreators.remove(item)),
-    updateLocation: item => dispatch(actionCreators.update(item))
+    updateLocation: item => dispatch(actionCreators.update(item)),
+    sortLocation: item => dispatch(actionCreators.sort())
   };
 };
 

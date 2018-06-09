@@ -40,6 +40,15 @@ const reducer = (state = initialState, action) => {
       setLocal(newerLocations);
       return { ...state, Locations: newerLocations };
     }
+    case actionTypes.ALPHABETIC_SORT: {
+      const newerLocations = [...state.Locations];
+      newerLocations.sort(function(a, b) {
+        if (a.Name < b.Name) return -1;
+        if (a.Name > b.Name) return 1;
+        return 0;
+      });
+      return { ...state, Locations: newerLocations };
+    }
 
     default:
       return state;

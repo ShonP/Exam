@@ -9,7 +9,11 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 const Location = props => {
   const { location, deleteItem, selectItem } = props;
   return (
-    <ListItem>
+    <ListItem
+      onClick={() => {
+        navigator.vibrate(200);
+      }}
+    >
       <ListItemSecondaryAction>
         <IconButton
           onClick={() => {
