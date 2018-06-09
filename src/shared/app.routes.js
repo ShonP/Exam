@@ -9,16 +9,6 @@ export const appRoutes = [
     component: categoryContainer
   },
   {
-    label: 'Category',
-    path: '/category/:id',
-    component: categoryForm
-  },
-  {
-    label: 'Category',
-    path: '/category/new',
-    component: categoryForm
-  },
-  {
     label: 'Location',
     path: '/location',
     icon: 'map',
