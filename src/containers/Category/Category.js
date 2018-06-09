@@ -34,7 +34,7 @@ class Category extends Component {
     return (
       <div className="CategoryContainer">
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className="appBar">
             <Typography variant="title" color="inherit" className="flex">
               Category
             </Typography>

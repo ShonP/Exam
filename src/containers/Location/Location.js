@@ -124,7 +124,7 @@ class Location extends React.Component {
     return (
       <div className="LocationContainer">
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className="appBar">
             <Typography variant="title" color="inherit" className="flex">
               Location
             </Typography>

@@ -1,18 +1,23 @@
 .LocationContainer {
-    display: flex;
-    flex-basis: 90%;
-    width: 100%;
+  display: flex;
+  flex-basis: 90%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  overflow: auto;
+}
+.LocationContent {
+  flex-basis: 90%;
+  width: 100%;
+}
+
+.flex {
+  flex: 1;
+}
+@media (max-width: 410px) {
+  .appBar {
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
-    overflow: auto;
   }
-  .LocationContent {
-    flex-basis: 90%;
-    width: 100%;
-  }
-  
-  .flex {
-    flex: 1;
-  }
+}

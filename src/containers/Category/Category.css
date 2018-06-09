@@ -16,3 +16,9 @@
 .flex {
   flex: 1;
 }
+
+@media (max-width: 410px) {
+  .appBar {
+    flex-direction: column;
+  }
+}
