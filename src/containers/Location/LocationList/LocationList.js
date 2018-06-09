@@ -7,16 +7,12 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { Delete, Edit } from '@material-ui/icons';
 import ListSubheader from '@material-ui/core/ListSubheader';
 const Location = props => {
-  const { location, deleteItem, selectItem, filter } = props;
+  const { location, deleteItem, selectItem, filter, openMap } = props;
   if (filter !== '' && location.Category != filter) {
     return null;
   }
   return (
-    <ListItem
-      onClick={() => {
-        navigator.vibrate(200);
-      }}
-    >
+    <ListItem>
       <ListItemSecondaryAction>
         <IconButton
           onClick={() => {
@@ -33,7 +29,14 @@ const Location = props => {
           <Edit />
         </IconButton>
       </ListItemSecondaryAction>
-      <ListItemText inset primary={location.Name} />
+      <ListItemText
+        onClick={() => {
+          openMap(location);
+          navigator.vibrate(200);
+        }}
+        inset
+        primary={location.Name}
+      />
     </ListItem>
   );
 };
@@ -44,6 +47,7 @@ class LocationList extends React.Component {
       selectItem,
       categories,
       data,
+      openMap,
       grouped,
       filter
     } = this.props;
@@ -55,6 +59,7 @@ class LocationList extends React.Component {
           deleteItem={deleteItem}
           selectItem={selectItem}
           location={x}
+          openMap={openMap}
         />
       );
     });

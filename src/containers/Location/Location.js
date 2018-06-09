@@ -12,50 +12,16 @@ import { connect } from 'react-redux';
 import LocationList from './LocationList/LocationList';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import GoogleMap from '../../components/Map/GoogleMap';
 import './Location.css';
-// import { compose, withProps } from 'recompose';
-// import {
-//   withScriptjs,
-//   withGoogleMap,
-//   GoogleMap,
-//   Marker
-// } from 'react-google-maps';
-// const key = 'AIzaSyCUpSURd8THx7maUBM-WgzUD5YCDzlahSI';
-// const MyMapComponent = compose(
-//   withProps({
-//     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${key}&v=3.exp&libraries=geometry,drawing,places`,
-//     loadingElement: <div style={{ height: `100%` }} />,
-//     containerElement: <div style={{ height: `400px` }} />,
-//     mapElement: <div style={{ height: `100%` }} />
-//   }),
-//   withScriptjs,
-//   withGoogleMap
-// )(props => (
-//   <GoogleMap
-//     defaultZoom={8}
-//     defaultCenter={{ lat: -34.397, lng: 150.644 }}
-//     onRightClick={logme}
-//   >
-//     <Marker
-//       position={{ lat: -34.397, lng: 150.644 }}
-//       onClick={props.onMarkerClick}
-//     />
-//   </GoogleMap>
-// ));
-// const logme = () => {
-//   console.log('clicked');
-// };
-// const Location = props => (
-//   <div style={{ width: '100%' }}>
-//     <MyMapComponent key={key} />
-//   </div>
-// );
 class Location extends React.Component {
   state = {
     open: false,
     grouped: false,
     selectedItem: null,
-    selectedCategory: ''
+    selectedCategory: '',
+    showMap: false,
+    view: null
   };
   createItem = Location => {
     this.props.createLocation({
@@ -79,11 +45,17 @@ class Location extends React.Component {
     });
     this.setState({ selectedItem: null, open: false });
   };
-  selectItem = Category => {
-    this.setState({ selectedItem: Category, open: true });
+  selectItem = Location => {
+    this.setState({ selectedItem: Location, open: true });
   };
   onSelected = Event => {
     this.setState({ selectedCategory: Event.target.value });
+  };
+  showMap = Location => {
+    this.setState({ selectedItem: Location, showMap: true });
+  };
+  getCategory = CategoryId => {
+    return this.props.category.find(x => x._id == CategoryId);
   };
   render() {
     const renderOptions = this.props.category.map(x => {
@@ -93,6 +65,62 @@ class Location extends React.Component {
         </MenuItem>
       );
     });
+    const viewMap = () => {
+      if (this.state.view === null) {
+        return (
+          <div>
+            <Button
+              color="inherit"
+              onClick={() => {
+                this.setState({ view: true });
+              }}
+            >
+              Map
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => {
+                this.setState({ view: false });
+              }}
+            >
+              Properties
+            </Button>
+          </div>
+        );
+      }
+      if (this.state.view === true) {
+        return (
+          <GoogleMap
+            lat={
+              this.state.selectedItem
+                ? this.state.selectedItem.Coordinates.Lat
+                : null
+            }
+            lon={
+              this.state.selectedItem
+                ? this.state.selectedItem.Coordinates.Lat
+                : null
+            }
+          />
+        );
+      }
+      if (this.state.view === false) {
+        return (
+          <div>
+            Name: {this.state.selectedItem.Name}
+            <br />
+            Address: {this.state.selectedItem.Address}
+            <br />
+            Latitude: {this.state.selectedItem.Coordinates.Lat}
+            <br />
+            Longtitude: {this.state.selectedItem.Coordinates.Lon}
+            <br />
+            Category:
+            {this.getCategory(this.state.selectedItem.Category).Category}
+          </div>
+        );
+      }
+    };
     return (
       <div className="LocationContainer">
         <AppBar position="static">
@@ -100,7 +128,6 @@ class Location extends React.Component {
             <Typography variant="title" color="inherit" className="flex">
               Location
             </Typography>
-
             <Select
               style={{ color: 'white' }}
               onChange={this.onSelected}
@@ -142,6 +169,7 @@ class Location extends React.Component {
             data={this.props.location}
             deleteItem={this.deleteItem}
             selectItem={this.selectItem}
+            openMap={this.showMap}
             filter={this.state.selectedCategory}
           />
         </div>
@@ -163,7 +191,22 @@ class Location extends React.Component {
               }
             />
           </DialogContent>
-        </Dialog>;
+        </Dialog>
+        <Dialog
+          open={this.state.showMap}
+          onClose={() => {
+            this.setState({ showMap: false, selectedItem: null, view: null });
+          }}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            {this.state.selectedItem ? this.state.selectedItem.Name : ''}
+          </DialogTitle>
+
+          <DialogContent style={{ height: '400px', width: '400px' }}>
+            {viewMap()}
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
